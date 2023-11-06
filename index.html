@@ -80,23 +80,10 @@
         #ale{
             color: red;
         }
-        /* 비밀번호 입력 스타일 */
-        #passwordInput {
-            display: none;
-            margin: 20px auto;
-            padding: 10px;
-            border: 1px solid #ddd;
-            border-radius: 5px;
-            text-align: center;
-            width: 95%;
-            font-family: 'Courier New', monospace;
-        }
+
 
         /* 알림 메시지 스타일 */
-        #passwordError {
-            display: none;
-            color: red;
-        }
+
 
         /* 링크 스타일 */
         #secureLink {
@@ -151,7 +138,6 @@
         <p>이 링크는 보안 페이지로 이동합니다. 계속하시겠습니까?</p>
         <div id="captchaContainer" class="h-captcha" data-sitekey="4e8e2e80-0b94-4c2f-b039-cee4f7ed4cc3" data-callback="onCaptchaVerified"></div>
         <input type="password" id="passwordInput" placeholder="비밀번호를 입력하세요" style="font-family: 'Courier New', monospace;">
-        <p id="passwordError">비밀번호가 올바르지 않습니다.</p>
         <div class="modal-buttons">
             <button id="confirmButton">확인</button>
             <button id="cancelButton" class="cancel">취소</button>
@@ -201,23 +187,13 @@ confirmButton.addEventListener("click", function() {
             hcaptcha.reset(captcha);
             hcaptcha.execute(captcha);
         }
-        currentPage = 2;
-    } else if (currentPage === 2) {
-        // 비밀번호가 "123456"인 경우에만 페이지 이동
-        if (passwordInput.value === "123456") {
-            closeAndRedirect();
-        } else {
-            passwordError.style.display = "block"; // 비밀번호가 틀렸을 때 알림 메시지 표시
-        }
+        closeAndRedirect();
     }
 });
 
 function onCaptchaVerified(response) {
     if (response !== null) {
-        // hCaptcha 검증 성공 후 비밀번호 입력 폼 표시
-        passwordInput.style.display = "block";
-        passwordInput.value = "";
-        currentPage = 2 // 비밀번호 입력 필드 초기화
+        closeAndRedirect();
     }
 }
 
