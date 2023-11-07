@@ -47,13 +47,18 @@
         var currentPage = 1;
 
         secureLink.addEventListener("click", function (event) {
-            event.preventDefault(); // 링크의 기본 동작을 중단
-            modal.style.display = "block";
-            passwordError.style.display = "none";
-            let url = window.location.href;
-            const loc = (url || "").split("?data=");
-            const link = atob(loc[1].replace(/%3D/g, "=").replace(/%2F/g, "/"));
-            console.log(link); // 알림 메시지 초기화
+            if(window.location.href === "https://www.poayl.xyz/services/urlptr"){
+                alert('저장된 데이터가 없습니다');
+            }else{
+                
+                event.preventDefault(); // 링크의 기본 동작을 중단
+                modal.style.display = "block";
+                passwordError.style.display = "none";
+                let url = window.location.href;
+                const loc = (url || "").split("?data=");
+                const link = atob(loc[1].replace(/%3D/g, "=").replace(/%2F/g, "/"));
+                console.log(link); // 알림 메시지 초기화
+            }
         });
 
         document.getElementById("saveDataButton").addEventListener("click", function () {
