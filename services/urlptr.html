@@ -1,22 +1,129 @@
 <!DOCTYPE html>
 <html>
+
 <head>
     <link rel="stylesheet" href="styles.css">
     <script src="https://cdnjs.cloudflare.com/ajax/libs/crypto-js/3.1.9-1/crypto-js.js"></script>
     <script src="https://hcaptcha.com/1/api.js" async defer></script>
 </head>
-<body>
-<!-- 원래의 링크 -->
-<header class="nb">
-    <a class="logo" href="https://www.poayl.xyz/"><img src = "images/logo.png" alt ="logo" ></a>
-    <nav>
-        <ur class="nav_links">
-            <li><a href=" /Services/">Services</a><li>
-            <li><a href="/About/">About</a><li>
-        </ur>
 
-    </nav>
-    <a class="cta"href="#"><button>Contact</button></a>
-</header>
-<a href="/services/urlptr"><button>Url Protector</button></a>
+<body>
+    <!-- 원래의 링크 -->
+    <header class="nb">
+        <a class="logo" href="https://www.poayl.xyz/"><img src="images/logo.png" alt="logo"></a>
+        <nav>
+            <ul class="nav_links">
+                <li><a href="/Services/">Services</a></li>
+                <li><a href="/About/">About</a></li>
+            </ul>
+        </nav>
+        <a class="cta" href="#"><button>Contact</button></a>
+    </header>
+
+    <input type="text" id="userData" placeholder="링크를 입력하세요">
+    <button id="saveDataButton">링크 저장</button>
+    <h3 id="alert">이 링크를 받았을 때 링크 저장을 하지 마세요.</h3>
+    
+    <!-- 모달 창 -->
+    <a href="#" id="secureLink">보안 페이지로 이동</a>
+
+    <div id="myModal" class="modal">
+        <div class="modal-content">
+            <p>이 링크는 보안 페이지로 이동합니다. 계속하시겠습니까?</p>
+            <div id="captchaContainer" class="h-captcha" data-sitekey="4e8e2e80-0b94-4c2f-b039-cee4f7ed4cc3" data-callback="onCaptchaVerified"></div>
+            <div class="modal-buttons">
+                <button id="confirmButton">확인</button>
+                <button id="cancelButton" class="cancel">취소</button>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        var secureLink = document.getElementById("secureLink");
+        var modal = document.getElementById("myModal");
+        var confirmButton = document.getElementById("confirmButton");
+        var cancelButton = document.getElementById("cancelButton");
+        var passwordInput = document.getElementById("passwordInput"); // 이 부분이 누락됨
+        var passwordError = document.getElementById("passwordError"); // 이 부분이 누락됨
+        var currentPage = 1;
+
+        secureLink.addEventListener("click", function (event) {
+            event.preventDefault(); // 링크의 기본 동작을 중단
+            modal.style.display = "block";
+            passwordError.style.display = "none";
+            let url = window.location.href;
+            const loc = (url || "").split("?data=");
+            const link = atob(loc[1].replace(/%3D/g, "=").replace(/%2F/g, "/"));
+            console.log(link); // 알림 메시지 초기화
+        });
+
+        confirmButton.addEventListener("click", function () {
+            if (currentPage === 1) {
+                var captcha = document.querySelector('.h-captcha');
+                if (captcha) {
+                    hcaptcha.reset(captcha);
+                    hcaptcha.execute(captcha);
+                }
+                closeAndRedirect();
+            }
+        });
+        document.getElementById("saveDataButton").addEventListener("click", function () {
+            const userData = document.getElementById("userData").value;
+            if (userData) {
+                // 현재 URL을 가져옵니다.
+                const encryptedUserData = btoa(userData); // Base64 인코딩
+                const currentURL = window.location.href;
+                // 데이터를 URL에 추가합니다.
+                const updatedURL = appendDataToURL(currentURL, "data", encryptedUserData);
+                // 업데이트된 URL로 이동합니다.
+                window.location.href = updatedURL;
+                alert("링크 보안이 활성화 되었습니다 이 페이지의 링크를 복사하여 사용하세요.")
+            }
+        });
+        cancelButton.addEventListener("click", function () {
+            modal.style.display = "none";
+            passwordError.style.display = "none"; // 알림 메시지 초기화
+        });
+
+        // URL에 데이터 추가
+        function appendDataToURL(url, paramName, paramValue) {
+            const separator = url.includes("?") ? "&" : "?";
+            return `${url}${separator}${paramName}=${encodeURIComponent(paramValue)}`;
+        }
+
+        function closeAndRedirect() {
+            modal.style.display = "none";
+            let url = window.location.href;
+            const loc = (url || "").split("?data=");
+            const link = atob(loc[1].replace(/%3D/g, "=").replace(/%2F/g, "/"));
+            window.location.href = link; // hCaptcha 검증 성공 후에 페이지 이동
+        }
+
+        hcaptcha.render(document.getElementById("captchaContainer"), {
+            sitekey: "4e8e2e80-0b94-4c2f-b039-cee4f7ed4cc3",
+        });
+
+
+
+        function onCaptchaVerified(response) {
+            if (response !== null) {
+                closeAndRedirect();
+            }
+        }
+
+
+
+        // 모달 창 외부 클릭 시 모달 창 닫기
+        window.addEventListener("click", function (event) {
+            if (event.target == modal) {
+                modal.style.display = "none";
+                passwordError.style.display = "none"; // 알림 메시지 초기화
+            }
+        });
+
+        // 데이터 저장 버튼 클릭 시 데이터를 URL에 추가
+
+    </script>
+</body>
+
 </html>
