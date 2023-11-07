@@ -93,24 +93,14 @@
                 passwordError.style.display = "none"; // 알림 메시지 초기화
             }
         });
-        hcaptcha.render(document.getElementById("captchaContainer"), {
-            sitekey: "4e8e2e80-0b94-4c2f-b039-cee4f7ed4cc3",
-        });
-
-
-    
         function onCaptchaVerified(response) {
             if (response !== null) {
                 closeAndRedirect();
             }
         }
-
-
-
-        // 모달 창 외부 클릭 시 모달 창 닫기
-
-
-        // 데이터 저장 버튼 클릭 시 데이터를 URL에 추가
+        hcaptcha.render(document.getElementById("captchaContainer"), {
+            sitekey: "4e8e2e80-0b94-4c2f-b039-cee4f7ed4cc3",
+        });
 
     </script>
 </body>
