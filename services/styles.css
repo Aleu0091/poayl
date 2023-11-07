@@ -138,7 +138,7 @@ button:hover{
     border: none;
     border-radius: 5px;
     cursor: pointer;
-    display: block;
+    display: flex;
     justify-content: center;
     align-items: center;
     height: 10vh;
