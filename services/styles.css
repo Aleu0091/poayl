@@ -120,19 +120,7 @@ button:hover{
     margin: 20px 0;
 }
 
-#homeButton {
-    display: block;
-    padding: 10px 20px;
-    background-color: #534caf;
-    color: #fff;
-    border: none;
-    border-radius: 5px;
-    cursor: pointer;
-    display: flex;
-    justify-content: center;
-    height: 20;
-    
-}
+
 #ale{
     color: red;
 }
@@ -150,7 +138,7 @@ button:hover{
     border: none;
     border-radius: 5px;
     cursor: pointer;
-    display: flex;
+    display: block;
     justify-content: center;
     align-items: center;
     height: 10vh;
