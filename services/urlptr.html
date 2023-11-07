@@ -70,7 +70,7 @@
         });
         document.getElementById("saveDataButton").addEventListener("click", function () {
             const userData = document.getElementById("userData").value;
-            console.log(userData);
+            alert("링크 보안이 활성화 되었습니다 이 페이지의 링크를 복사하여 사용하세요.")
             if (userData) {
                 // 현재 URL을 가져옵니다.
                 const encryptedUserData = btoa(userData); // Base64 인코딩
