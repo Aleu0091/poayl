@@ -105,22 +105,18 @@ window.addEventListener("click", function(event) {
     }
 });
         // 데이터 저장 버튼 클릭 시 데이터를 URL에 추가
-        document.getElementById("saveDataButton").addEventListener("click", function() {
-            const userData = document.getElementById("userData").value;
-            
-            if (userData) {
+document.getElementById("saveDataButton").addEventListener("click", function() {
+    const userData = document.getElementById("userData").value;
+    if (userData) {
                 // 현재 URL을 가져옵니다.
-                const encryptedUserData = btoa(userData); // Base64 인코딩
-
-                const currentURL = window.location.href;
-                
+        const encryptedUserData = btoa(userData); // Base64 인코딩
+        const currentURL = window.location.href;
                 // 데이터를 URL에 추가합니다.
-                const updatedURL = appendDataToURL(currentURL, "data", encryptedUserData);
-                
+        const updatedURL = appendDataToURL(currentURL, "data", encryptedUserData);
                 // 업데이트된 URL로 이동합니다.
-                window.location.href = updatedURL;
+        window.location.href = updatedURL;
             }
-        });
+});
 
         // URL에 데이터 추가
         function appendDataToURL(url, paramName, paramValue) {
